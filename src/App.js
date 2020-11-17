@@ -7,10 +7,10 @@ import AlertState from "./context/alert/AlertState";
 import "./App.css";
 import NavBar from "./components/layout/Navbar";
 import Alert from "./components/layout/Alert";
-import Users from "./components/Users/Users";
-import Search from "./components/Users/Search";
 import About from "./components/Pages/About";
 import User from "./components/Users/User";
+import Home from "./components/Pages/Home";
+import NotFound from "./components/Pages/NotFound";
 
 const App = () => {
   return (
@@ -22,21 +22,13 @@ const App = () => {
             <div className="container">
               <Alert alert={alert} />
               <Switch>
-                <Route
-                  path="/"
-                  exact
-                  render={(props) => (
-                    <>
-                      <Search />
-                      <Users />
-                    </>
-                  )}
-                />
+                <Route path="/" exact component={Home} />
                 <Route path="/about" component={About} />
                 <Route
                   path="/user/:login"
                   render={(props) => <User {...props} />}
                 />
+                <Route component={NotFound} />
               </Switch>
             </div>
           </div>
