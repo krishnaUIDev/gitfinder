@@ -10,6 +10,15 @@ import {
   SET_LOADING,
 } from "../types";
 
+let githubClientId;
+let githubClientSecret;
+if (process.env.NODE_ENV !== "production") {
+  githubClientId = process.env.GITHUB_CLIENT_ID;
+  githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+} else {
+  githubClientId = process.env.GITHUB_CLIENT_ID;
+  githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
+}
 const GithubState = (props) => {
   const initialState = {
     users: [],
@@ -24,7 +33,7 @@ const GithubState = (props) => {
     setLoading();
     const data = await axios
       .get(
-        `https://api.github.com/search/users?q=${text}&client_id=${process.env.GITHUB_CLIENT_ID}&client_secret=${process.env.GITHUB_CLIENT_SECRET}`
+        `https://api.github.com/search/users?q=${text}&client_id=${githubClientId}&client_secret=${githubClientSecret}`
       )
       .then((res) => res.data);
     dispatch({ type: SEARCH_USERS, payload: data.items });
