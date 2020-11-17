@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-
 import Spinner from "../layout/Spinner";
 import Repos from "../Repos/Repos";
+import GithubContext from "../../context/github/githubContext";
 
 const User = (props) => {
+  const githubContext = useContext(GithubContext);
+  const { user, getUserRepos, getUser, loading } = githubContext;
   useEffect(() => {
-    props.getUser(props.match.params.login);
-    props.getUserRepos(props.match.params.login);
+    getUser(props.match.params.login);
+    getUserRepos(props.match.params.login);
     // eslint-disable-next-line
   }, []);
   const {
@@ -25,8 +26,7 @@ const User = (props) => {
     public_gists,
     hirable,
     company,
-  } = props.user;
-  const { loading, repos } = props;
+  } = user;
   if (loading) return <Spinner />;
   return (
     <>
@@ -94,15 +94,9 @@ const User = (props) => {
         <div className="badge badge-light">Public Repos: {public_repos}</div>
         <div className="badge badge-dark">Public Gists: {public_gists}</div>
       </div>
-      <Repos repos={repos} />
+      <Repos />
     </>
   );
-};
-
-User.propTypes = {
-  loading: PropTypes.bool,
-  user: PropTypes.object,
-  getUserRepos: PropTypes.func,
 };
 
 export default User;
